@@ -33,7 +33,7 @@ public class RomanNumeralsConverter {
     Integer nearestBaseValue = findBaseValue (arabicNumber);
     int numberOfBasesInTheArabicNumber = arabicNumber / nearestBaseValue;
     int numberRemainingAfterLargestBaseHasBeenDeducted = arabicNumber % nearestBaseValue;
-    
+
     convertedNumberString = buildRomanNumeralString (
                                               convertedNumberString,
                                               nearestBaseValue,
