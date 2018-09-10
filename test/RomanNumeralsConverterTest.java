@@ -16,4 +16,16 @@ class RomanNumeralsConverterTest {
     assertEquals ("XI", RomanNumeralsConverter.convert (11));
   }
 
+  @Test
+  @DisplayName ("Should return XX for 20")
+  void convert20 () {
+    assertEquals ("XX", RomanNumeralsConverter.convert (20));
+  }
+
+  @Test
+  @DisplayName ("Should return MMMDXLIX for 3549")
+  void convert3549 () {
+    assertEquals ("MMMDXLIX", RomanNumeralsConverter.convert (3549));
+  }
+
 }

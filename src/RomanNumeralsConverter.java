@@ -19,7 +19,43 @@ public class RomanNumeralsConverter {
       put (1000, "M");
     }};
 
-  public static String convert (int arabicNumber) {
-    return BASE_VALUES.get (arabicNumber);
+  public static String convert (Integer arabicNumber) {
+    return compareToNearestBaseValue (arabicNumber, "");
+  }
+
+  private static String convert (Integer arabicNumber,
+                                 String convertedNumberString) {
+    return compareToNearestBaseValue (arabicNumber, convertedNumberString);
+  }
+
+  private static String compareToNearestBaseValue (Integer arabicNumber,
+                                                   String convertedNumberString) {
+    Integer nearestBaseValue = findBaseValue (arabicNumber);
+    int quotient = arabicNumber / nearestBaseValue;
+    int remainder = arabicNumber % nearestBaseValue;
+    for (int i = 0; i < quotient; i++) {
+      convertedNumberString += BASE_VALUES.get(nearestBaseValue);
+    }
+    if (remainder != 0) {
+      return convert (remainder, convertedNumberString);
+    }
+    return convertedNumberString;
+  }
+
+  private static int findBaseValue (Integer arabicNumber) {
+    Integer nearestBaseValue = null;
+    Integer minimumDifference = Integer.MAX_VALUE;
+    if (BASE_VALUES.get (arabicNumber) != null) {
+      nearestBaseValue = arabicNumber;
+    } else {
+      for (Integer key : BASE_VALUES.keySet ()) {
+        int differenceBetweenKeyAndArabicNumber = (arabicNumber - key);
+        if (differenceBetweenKeyAndArabicNumber < minimumDifference && differenceBetweenKeyAndArabicNumber > 0) {
+          nearestBaseValue = key;
+          minimumDifference = differenceBetweenKeyAndArabicNumber;
+        }
+      }
+    }
+    return nearestBaseValue;
   }
 }
