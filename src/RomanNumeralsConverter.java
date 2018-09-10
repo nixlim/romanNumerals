@@ -2,7 +2,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class RomanNumeralsConverter {
-  private static final Map<Integer, String> BASE_VALUES =
+  private static final Map<Integer, String> BASE_VALUES_MAP =
     new HashMap<Integer, String> () {{
       put (1, "I");
       put (4, "IV");
@@ -31,13 +31,23 @@ public class RomanNumeralsConverter {
   private static String compareToNearestBaseValue (Integer arabicNumber,
                                                    String convertedNumberString) {
     Integer nearestBaseValue = findBaseValue (arabicNumber);
-    int quotient = arabicNumber / nearestBaseValue;
-    int remainder = arabicNumber % nearestBaseValue;
-    for (int i = 0; i < quotient; i++) {
-      convertedNumberString += BASE_VALUES.get(nearestBaseValue);
-    }
-    if (remainder != 0) {
-      return convert (remainder, convertedNumberString);
+    int numberOfBasesInTheArabicNumber = arabicNumber / nearestBaseValue;
+    int numberRemainingAfterLargestBaseHasBeenDeducted = arabicNumber % nearestBaseValue;
+    
+    convertedNumberString = buildRomanNumeralString (
+                                              convertedNumberString,
+                                              nearestBaseValue,
+                                              numberOfBasesInTheArabicNumber);
+    return numberRemainingAfterLargestBaseHasBeenDeducted != 0 ?
+      convert (numberRemainingAfterLargestBaseHasBeenDeducted,
+        convertedNumberString) : convertedNumberString;
+  }
+
+  private static String buildRomanNumeralString(String convertedNumberString,
+                                                Integer nearestBaseValue,
+                                                int numberOfBasesInTheArabicNumber) {
+    for (int i = 0; i < numberOfBasesInTheArabicNumber; i++) {
+      convertedNumberString += BASE_VALUES_MAP.get(nearestBaseValue);
     }
     return convertedNumberString;
   }
@@ -45,14 +55,15 @@ public class RomanNumeralsConverter {
   private static int findBaseValue (Integer arabicNumber) {
     Integer nearestBaseValue = null;
     Integer minimumDifference = Integer.MAX_VALUE;
-    if (BASE_VALUES.get (arabicNumber) != null) {
+    if (BASE_VALUES_MAP.get (arabicNumber) != null) {
       nearestBaseValue = arabicNumber;
     } else {
-      for (Integer key : BASE_VALUES.keySet ()) {
-        int differenceBetweenKeyAndArabicNumber = (arabicNumber - key);
-        if (differenceBetweenKeyAndArabicNumber < minimumDifference && differenceBetweenKeyAndArabicNumber > 0) {
+      for (Integer key : BASE_VALUES_MAP.keySet ()) {
+        int differenceBetweenBaseValueMapKeyAndArabicNumber = (arabicNumber - key);
+        if (differenceBetweenBaseValueMapKeyAndArabicNumber < minimumDifference
+          && differenceBetweenBaseValueMapKeyAndArabicNumber > 0) {
           nearestBaseValue = key;
-          minimumDifference = differenceBetweenKeyAndArabicNumber;
+          minimumDifference = differenceBetweenBaseValueMapKeyAndArabicNumber;
         }
       }
     }
