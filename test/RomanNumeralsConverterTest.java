@@ -10,4 +10,10 @@ class RomanNumeralsConverterTest {
     assertEquals ("V", RomanNumeralsConverter.convert(5));
   }
 
+  @Test
+  @DisplayName ("Should return XI for 11")
+  void convert11 () {
+    assertEquals ("XI", RomanNumeralsConverter.convert (11));
+  }
+
 }
