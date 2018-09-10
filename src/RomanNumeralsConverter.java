@@ -20,16 +20,16 @@ public class RomanNumeralsConverter {
     }};
 
   public static String convert (Integer arabicNumber) {
-    return compareToNearestBaseValue (arabicNumber, "");
+    return constructRomanNumeralStringUsingBaseValues (arabicNumber, "");
   }
 
   private static String convert (Integer arabicNumber,
                                  String convertedNumberString) {
-    return compareToNearestBaseValue (arabicNumber, convertedNumberString);
+    return constructRomanNumeralStringUsingBaseValues (arabicNumber, convertedNumberString);
   }
 
-  private static String compareToNearestBaseValue (Integer arabicNumber,
-                                                   String convertedNumberString) {
+  private static String constructRomanNumeralStringUsingBaseValues(Integer arabicNumber,
+                                                                   String convertedNumberString) {
     Integer nearestBaseValue = findBaseValue (arabicNumber);
     int numberOfBasesInTheArabicNumber = arabicNumber / nearestBaseValue;
     int numberRemainingAfterLargestBaseHasBeenDeducted = arabicNumber % nearestBaseValue;
